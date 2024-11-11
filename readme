@@ -1,2 +1,92 @@
-creation d'un compte à rebour a entrée choisi par l'utilisateur.
-Dans le cadre d'un TP suite cours, ne pas prendre en compte l'interface, le butr etant de se familiarisé avec JS 
+Création d'un compte à rebours avec une durée choisie par l'utilisateur.
+Dans le cadre d'un TP suite au cours, ne pas prendre en compte l'interface ; l'objectif étant de se familiariser avec JavaScript.
+
+
+
+---
+
+### 1. **Sélection des éléments HTML**
+
+const userChoice = document.getElementById("choice");
+const secondsSong = document.getElementById("seconds-sound");
+
+J'utilise `document.getElementById()` pour sélectionner des éléments HTML par leur `id`. Cela me permet de récupérer des données, comme la durée du compte à rebours choisie par l'utilisateur (`userChoice`), et de manipuler des éléments du DOM.
+
+---
+
+### 2. **Variables Globales**
+
+let totalSeconds; // nombre total de secondes
+let interval;
+
+Je déclare des variables globales. `totalSeconds` stocke la durée du compte à rebours en secondes, et `interval` est utilisé pour garder une référence au minuteur.
+
+---
+
+### 3. **Affichage du Compte à Rebours**
+
+const affichageCountdown = (minutes, sec) => {
+  countdownDisplay.textContent = `${minutes}:${sec}`;
+};
+
+Je crée une fonction `affichageCountdown()` pour mettre à jour l'affichage du compte à rebours dans le HTML. Elle affiche les minutes et les secondes sous forme de texte dans un élément HTML spécifique.
+
+### 4. **Logique du Compte à Rebours**
+
+const countdown = () => {
+  let minutes = Math.floor(totalSeconds / 60); // Convertir en minutes
+  let seconds = totalSeconds % 60; // Calculer les secondes restantes
+  let sec = seconds < 10 ? "0" + seconds : seconds; // Ajouter un zéro si les secondes < 10
+  affichageCountdown(minutes, sec); // Mettre à jour l'affichage
+  totalSeconds--; // Décrémenter le compteur
+  if (totalSeconds <= 0) {
+    clearInterval(interval); // Arrêter le minuteur
+    countdownDisplay.textContent = "c'est terminé";
+  }
+};
+
+Dans cette fonction, je convertis `totalSeconds` en minutes et secondes. Si les secondes sont inférieures à 10, je rajoute un zéro devant. Ensuite, je décrémente `totalSeconds` à chaque seconde et j'arrête le minuteur lorsque le temps est écoulé.
+
+### 5. **Validation du Formulaire**
+
+const validationFormulaire = () => {
+  form.addEventListener("submit", (e) => {
+    if (isNaN(choice.value)) {
+      alert("Veuillez saisir un nombre valide");
+      return; // Empêcher l'envoi si ce n'est pas un nombre
+    } else {
+      e.preventDefault(); // Annuler le formulaire pour éviter un rechargement de page
+      totalSeconds = userChoice.value * 60; // Convertir la durée en secondes
+      userChoice.value = ""; // Vider le champ de saisie
+      clearInterval(interval); // Arrêter le minuteur précédent
+      interval = setInterval(countdown, 1000); // Lancer un nouveau compte à rebours
+    }
+  });
+};
+
+
+Je valide la saisie de l'utilisateur. Si l'utilisateur entre un nombre valide, je convertis cette valeur en secondes et démarre un nouveau compte à rebours. Sinon, je montre une alerte.
+
+### 6. **Fonction Principale**
+
+const masterCountdown = () => {
+  validationFormulaire(); // Initialiser la validation et démarrer le compte à rebours
+};
+masterCountdown();
+
+La fonction `masterCountdown()` appelle `validationFormulaire()` pour démarrer le processus de validation et de lancement du compte à rebours.
+
+---
+
+### Résumé des Concepts Appris :
+
+- **Manipulation du DOM** : Sélectionner et modifier des éléments HTML avec `getElementById()`.
+- **Gestion des événements** : Utiliser `addEventListener()` pour interagir avec l'utilisateur.
+- **Logique conditionnelle** : Vérifier l'entrée de l'utilisateur et adapter le comportement du code avec des conditions.
+- **Gestion du temps avec `setInterval()`** : Utiliser un minuteur pour le compte à rebours.
+- **Validation des entrées** : Vérifier que l'utilisateur entre un nombre valide avant de commencer le compte à rebours.
+- **Organisation du code** : Structurer mon code en fonctions pour faciliter la maintenance et la lisibilité.
+
+---
+
+Ce projet m'a permis de me familiariser avec la manipulation du DOM, les événements en JavaScript, la gestion du temps, et la validation des entrées utilisateur.
