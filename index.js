@@ -32,7 +32,7 @@ const validationFormulaire = () => {
       userChoice.value = ""; //vide le champ de saisie
       clearInterval(interval); //permet de clear le timer s'il existe déjà et que nouvelle valeur envoyer
 
-      interval = setInterval(countdown, 100);
+      interval = setInterval(countdown, 1000);
     }
   });
 };
